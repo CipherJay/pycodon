@@ -39,7 +39,7 @@ codon_table = {
     'ATA': 'Isoleucine',
     'ATC': 'Isoleucine',
     'ATT': 'Isoleucine',
-    'ATG': 'Methionine',
+    'ATG': 'Methionine/Start',
     'ACA': 'Threonine',
     'ACC': 'Threonine',
     'ACG': 'Threonine',
@@ -82,8 +82,14 @@ def print_codon(codon):
     codon_type = identify_type(codon)
     codon_in_table = codon.replace('U', 'T')
     if codon_in_table in codon_table:
-        amino_acid = f"{Fore.GREEN}{codon_table[codon_in_table]}{Style.RESET_ALL}"
-        table_string = tabulate([[f"{Fore.RED}{codon}{Style.RESET_ALL}", amino_acid, codon_type]],
+        if codon_table[codon_in_table] == "Stop":
+            amino_acid = f"{Fore.RED}Stop{Style.RESET_ALL}"
+        elif codon_table[codon_in_table] == "Methionine/Start":
+            amino_acid = f"{Fore.GREEN}Methionine{Style.RESET_ALL}{Fore.LIGHTBLACK_EX}/{Fore.LIGHTWHITE_EX}Start{Style.RESET_ALL}"
+        else:
+            amino_acid = f"{Fore.GREEN}{codon_table[codon_in_table]}{Style.RESET_ALL}"
+        
+        table_string = tabulate([[f"{Fore.LIGHTMAGENTA_EX}{codon}{Style.RESET_ALL}", amino_acid, codon_type]],
                                 [f"{Fore.LIGHTBLACK_EX}Codon{Style.RESET_ALL}", 
                                  f"{Fore.LIGHTBLACK_EX}Amino Acid{Style.RESET_ALL}",
                                  f"{Fore.LIGHTBLACK_EX}Type{Style.RESET_ALL}"],
